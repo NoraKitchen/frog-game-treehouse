@@ -7,15 +7,20 @@ public class PlayerMovement : MonoBehaviour {
     private float moveHorizontal;
     private float moveVertical;
     private Vector3 movement;
+    private float turningSpeed = 20f;
+    private Rigidbody playerRigidbody;
 
 	// Use this for initialization
 	void Start () {
+        //gets animator component from Player GameObject (frog)
         playerAnimator = GetComponent<Animator>();
+        //get rigidbody component from player, this is used for rotation (at least here)
+        playerRigidbody = GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+        //gets input from keyboard
         //will contain a -1 or +1 if the player pressed a key to move left or right?
         moveHorizontal = Input.GetAxisRaw("Horizontal");
         moveVertical = Input.GetAxisRaw("Vertical");
@@ -30,6 +35,14 @@ public class PlayerMovement : MonoBehaviour {
         //if update has determined the player is pressing direction keys, animate
         if (movement != Vector3.zero)
         {
+            //rotate frog in desired direction
+            //creates a target rotation(direction we want frog to look to) based on the movement vector/direction
+            Quaternion targetRotation = Quaternion.LookRotation(movement, Vector3.up);
+
+            //move over time from current rotation to targetRotation
+            Quaternion newRotation = Quaternion.Lerp(playerRigidbody.rotation, targetRotation, turningSpeed * Time.deltaTime);
+            playerRigidbody.MoveRotation(newRotation);
+
             //movement animation only runs if 'speed' (a prop of the obj i assume) is above a certain #
             //SetFloat changes the speed - so this will trigger animation
             playerAnimator.SetFloat("Speed", 3f);
