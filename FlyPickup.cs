@@ -14,6 +14,8 @@ public class FlyPickup : MonoBehaviour {
         {
                //magic dust
             Instantiate(pickupPrefab, transform.position, Quaternion.identity);
+            //decrement total flies
+            FlySpawner.totalFlies--;
             //kill fly
             Destroy(gameObject);
         }
