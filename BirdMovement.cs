@@ -10,6 +10,9 @@ public class BirdMovement : MonoBehaviour {
 
     private Animator birdAnimator;
 
+    [SerializeField]
+    private RandomSoundPlayer birdFootsteps;
+
 
     // Use this for initialization
     void Start () {
@@ -28,6 +31,16 @@ public class BirdMovement : MonoBehaviour {
 
         //pass speed to animator so it knows to animate bird
         birdAnimator.SetFloat("Speed", speed);
+
+
+        if (speed > 0)
+        {
+            birdFootsteps.enabled = true;
+        }
+        else
+        {
+            birdFootsteps.enabled = false;
+        }
 	
 	}
 }

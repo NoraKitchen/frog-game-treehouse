@@ -9,6 +9,9 @@ public class PlayerMovement : MonoBehaviour {
     private Vector3 movement;
     private float turningSpeed = 20f;
     private Rigidbody playerRigidbody;
+    [SerializeField]
+    private RandomSoundPlayer playerFootsteps;
+
 
 	// Use this for initialization
 	void Start () {
@@ -46,10 +49,15 @@ public class PlayerMovement : MonoBehaviour {
             //movement animation only runs if 'speed' (a prop of the obj i assume) is above a certain #
             //SetFloat changes the speed - so this will trigger animation
             playerAnimator.SetFloat("Speed", 3f);
+
+            //play footstep sounds
+            playerFootsteps.enabled = true;
         } else
         {
             //if the player is no longer hitting directions, stop movement animation
             playerAnimator.SetFloat("Speed", 0f);
+            //don't play footstep sounds
+            playerFootsteps.enabled = false;
         }
     }
 }
